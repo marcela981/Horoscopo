@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Horóscopo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .test-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #ff5252;
+        }
+        .result {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ffebee;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔮 Test API Horóscopo</h1>
+    
+    <div class="test-container">
+        <h2>Probar API de Horóscopo</h2>
+        <button onclick="testDailyHoroscope()">Probar Horóscopo Diario</button>
+        <button onclick="testAllSigns()">Probar Todos los Signos</button>
+        <button onclick="testSpecificSign()">Probar Signo Específico</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <!-- Axios desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script type="module">
+        import AstrologyAPI from './js/services/astrologyAPI.js';
+        
+        const api = new AstrologyAPI();
+        window.api = api;
+        
+        window.testDailyHoroscope = async function() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="result">Probando horóscopo diario para Leo...</div>';
+            
+            try {
+                const horoscope = await api.getDailyHoroscope('leo');
+                resultsDiv.innerHTML = `
+                    <div class="result">
+                        <h3>Horóscopo Diario - Leo</h3>
+                        <pre>${JSON.stringify(horoscope, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>Error</h3>
+                        <pre>${error.message}</pre>
+                    </div>
+                `;
+            }
+        };
+        
+        window.testAllSigns = async function() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="result">Probando todos los signos...</div>';
+            
+            try {
+                const horoscopes = await api.getAllSignsHoroscope('daily');
+                resultsDiv.innerHTML = `
+                    <div class="result">
+                        <h3>Horóscopos para Todos los Signos</h3>
+                        <pre>${JSON.stringify(horoscopes, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>Error</h3>
+                        <pre>${error.message}</pre>
+                    </div>
+                `;
+            }
+        };
+        
+        window.testSpecificSign = async function() {
+            const sign = prompt('Ingresa un signo (aries, taurus, etc.):', 'aries');
+            if (!sign) return;
+            
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="result">Probando horóscopo para ${sign}...</div>`;
+            
+            try {
+                const horoscope = await api.getDailyHoroscope(sign);
+                resultsDiv.innerHTML = `
+                    <div class="result">
+                        <h3>Horóscopo Diario - ${sign}</h3>
+                        <pre>${JSON.stringify(horoscope, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>Error</h3>
+                        <pre>${error.message}</pre>
+                    </div>
+                `;
+            }
+        };
+    </script>
+</body>
+</html> 

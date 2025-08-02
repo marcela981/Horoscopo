@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cálculos Astrológicos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .test-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #ff5252;
+        }
+        .result {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .sign-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .sign-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .sign-symbol {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔮 Test Cálculos Astrológicos</h1>
+    
+    <div class="test-container">
+        <h2>Probar Cálculos Mejorados</h2>
+        
+        <div class="form-group">
+            <label for="testDate">Fecha de Nacimiento:</label>
+            <input type="date" id="testDate" value="1990-06-15">
+        </div>
+        
+        <div class="form-group">
+            <label for="testTime">Hora de Nacimiento:</label>
+            <input type="time" id="testTime" value="14:30">
+        </div>
+        
+        <button onclick="testCalculations()">Calcular Signos</button>
+        <button onclick="testMultipleDates()">Probar Múltiples Fechas</button>
+        <button onclick="testUserData()">Probar con Mis Datos (27/08/2000 12:34)</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script type="module">
+        import { getPersonInfo } from './js/utils/horoscopeCalculator.js';
+        import { zodiacSigns } from './js/data/zodiacSigns.js';
+        
+        window.testCalculations = function() {
+            const birthDate = document.getElementById('testDate').value;
+            const birthTime = document.getElementById('testTime').value;
+            
+            if (!birthDate || !birthTime) {
+                alert('Por favor completa todos los campos');
+                return;
+            }
+            
+            try {
+                const personInfo = getPersonInfo(birthDate, birthTime);
+                
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = `
+                    <div class="result">
+                        <h3>Resultados para ${birthDate} a las ${birthTime}</h3>
+                        
+                        <div class="sign-info">
+                            <div class="sign-card">
+                                <div class="sign-symbol">☀️</div>
+                                <h4>Signo Solar</h4>
+                                <p><strong>${personInfo.solarSignData.name}</strong></p>
+                                <p>${personInfo.solarSignData.symbol}</p>
+                                <p><small>Elemento: ${personInfo.solarSignData.element}</small></p>
+                            </div>
+                            
+                            <div class="sign-card">
+                                <div class="sign-symbol">☽</div>
+                                <h4>Signo Lunar</h4>
+                                <p><strong>${personInfo.lunarSignData.name}</strong></p>
+                                <p>${personInfo.lunarSignData.symbol}</p>
+                                <p><small>Elemento: ${personInfo.lunarSignData.element}</small></p>
+                            </div>
+                            
+                            <div class="sign-card">
+                                <div class="sign-symbol">🌅</div>
+                                <h4>Signo Ascendente</h4>
+                                <p><strong>${personInfo.ascendantSignData.name}</strong></p>
+                                <p>${personInfo.ascendantSignData.symbol}</p>
+                                <p><small>Elemento: ${personInfo.ascendantSignData.element}</small></p>
+                            </div>
+                        </div>
+                        
+                        <div class="result">
+                            <h4>Horóscopo del Día:</h4>
+                            <p>${personInfo.dailyHoroscope}</p>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('results').innerHTML = `
+                    <div class="result" style="background: rgba(255, 0, 0, 0.2);">
+                        <h3>Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        };
+        
+        window.testMultipleDates = function() {
+            const testCases = [
+                { date: '1990-03-21', time: '06:00', expected: 'aries' },
+                { date: '1990-04-20', time: '12:00', expected: 'taurus' },
+                { date: '1990-05-21', time: '18:00', expected: 'gemini' },
+                { date: '1990-06-21', time: '00:00', expected: 'cancer' },
+                { date: '1990-07-23', time: '06:00', expected: 'leo' },
+                { date: '1990-08-23', time: '12:00', expected: 'virgo' },
+                { date: '1990-09-23', time: '18:00', expected: 'libra' },
+                { date: '1990-10-23', time: '00:00', expected: 'scorpio' },
+                { date: '1990-11-22', time: '06:00', expected: 'sagittarius' },
+                { date: '1990-12-22', time: '12:00', expected: 'capricorn' },
+                { date: '1990-01-20', time: '18:00', expected: 'aquarius' },
+                { date: '1990-02-19', time: '00:00', expected: 'pisces' }
+            ];
+            
+            let results = '<div class="result"><h3>Pruebas Múltiples</h3>';
+            
+            testCases.forEach(testCase => {
+                try {
+                    const personInfo = getPersonInfo(testCase.date, testCase.time);
+                    const isCorrect = personInfo.solarSign === testCase.expected;
+                    
+                    results += `
+                        <div style="margin: 10px 0; padding: 10px; background: ${isCorrect ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'}; border-radius: 5px;">
+                            <strong>${testCase.date} ${testCase.time}</strong><br>
+                            Esperado: ${testCase.expected} | Calculado: ${personInfo.solarSign} 
+                            ${isCorrect ? '✅' : '❌'}
+                        </div>
+                    `;
+                } catch (error) {
+                    results += `
+                        <div style="margin: 10px 0; padding: 10px; background: rgba(255, 0, 0, 0.2); border-radius: 5px;">
+                            <strong>${testCase.date} ${testCase.time}</strong><br>
+                            Error: ${error.message}
+                        </div>
+                    `;
+                }
+            });
+            
+            results += '</div>';
+            document.getElementById('results').innerHTML = results;
+        };
+        
+        window.testUserData = function() {
+            const birthDate = '2000-08-27';
+            const birthTime = '12:34';
+            
+            try {
+                const personInfo = getPersonInfo(birthDate, birthTime);
+                
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = `
+                    <div class="result">
+                        <h3>📊 Resultados para 27/08/2000 a las 12:34</h3>
+                        <p><strong>Esperado:</strong> Solar: Virgo | Lunar: Leo | Ascendente: Sagitario</p>
+                        
+                        <div class="sign-info">
+                            <div class="sign-card" style="background: ${personInfo.solarSign === 'virgo' ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'};">
+                                <div class="sign-symbol">☀️</div>
+                                <h4>Signo Solar</h4>
+                                <p><strong>${personInfo.solarSignData.name}</strong></p>
+                                <p>${personInfo.solarSignData.symbol}</p>
+                                <p><small>Esperado: Virgo | Calculado: ${personInfo.solarSign}</small></p>
+                                <p><small>${personInfo.solarSign === 'virgo' ? '✅ Correcto' : '❌ Incorrecto'}</small></p>
+                            </div>
+                            
+                            <div class="sign-card" style="background: ${personInfo.lunarSign === 'leo' ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'};">
+                                <div class="sign-symbol">☽</div>
+                                <h4>Signo Lunar</h4>
+                                <p><strong>${personInfo.lunarSignData.name}</strong></p>
+                                <p>${personInfo.lunarSignData.symbol}</p>
+                                <p><small>Esperado: Leo | Calculado: ${personInfo.lunarSign}</small></p>
+                                <p><small>${personInfo.lunarSign === 'leo' ? '✅ Correcto' : '❌ Incorrecto'}</small></p>
+                            </div>
+                            
+                            <div class="sign-card" style="background: ${personInfo.ascendantSign === 'sagittarius' ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'};">
+                                <div class="sign-symbol">🌅</div>
+                                <h4>Signo Ascendente</h4>
+                                <p><strong>${personInfo.ascendantSignData.name}</strong></p>
+                                <p>${personInfo.ascendantSignData.symbol}</p>
+                                <p><small>Esperado: Sagitario | Calculado: ${personInfo.ascendantSign}</small></p>
+                                <p><small>${personInfo.ascendantSign === 'sagittarius' ? '✅ Correcto' : '❌ Incorrecto'}</small></p>
+                            </div>
+                        </div>
+                        
+                        <div class="result">
+                            <h4>Debug Info:</h4>
+                            <p><strong>Fecha:</strong> ${birthDate}</p>
+                            <p><strong>Hora:</strong> ${birthTime}</p>
+                            <p><strong>Mes:</strong> ${new Date(birthDate).getMonth() + 1}</p>
+                            <p><strong>Día:</strong> ${new Date(birthDate).getDate()}</p>
+                            <p><strong>Hora (24h):</strong> ${parseInt(birthTime.split(':')[0])}</p>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('results').innerHTML = `
+                    <div class="result" style="background: rgba(255, 0, 0, 0.2);">
+                        <h3>Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        };
+    </script>
+</body>
+</html> 

@@ -1,0 +1,17 @@
+{
+  "name": "horoscopo-app",
+  "version": "1.0.0",
+  "description": "Aplicación de horóscopo con API de astrología",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {},
+  "keywords": ["horoscopo", "astrologia", "zodiaco"],
+  "author": "Tu Nombre",
+  "license": "MIT"
+} 
