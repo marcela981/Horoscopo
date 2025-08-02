@@ -434,16 +434,24 @@ class HoroscopeResult {
     }
 
     getAspectNature(aspect) {
-        const natures = {
-            'conjunction': 'Fusión',
-            'opposition': 'Tensión',
-            'trine': 'Armonía',
-            'square': 'Desafío',
-            'sextile': 'Oportunidad',
-            'quintile': 'Creatividad'
-        };
+        // Array de aspectos para usar con loops
+        const aspectNatures = [
+            { aspect: 'conjunction', nature: 'Fusión' },
+            { aspect: 'opposition', nature: 'Tensión' },
+            { aspect: 'trine', nature: 'Armonía' },
+            { aspect: 'square', nature: 'Desafío' },
+            { aspect: 'sextile', nature: 'Oportunidad' },
+            { aspect: 'quintile', nature: 'Creatividad' }
+        ];
         
-        return natures[aspect] || 'Especial';
+        // Buscar la naturaleza del aspecto usando loop
+        for (let i = 0; i < aspectNatures.length; i++) {
+            if (aspectNatures[i].aspect === aspect) {
+                return aspectNatures[i].nature;
+            }
+        }
+        
+        return 'Especial';
     }
 
     generateCompatibilityRecommendations(percentage, synastryData) {

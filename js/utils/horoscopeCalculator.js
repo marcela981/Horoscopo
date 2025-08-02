@@ -1,26 +1,110 @@
 import { zodiacSigns } from '../data/zodiacSigns.js';
 
-// Función para determinar el signo solar basado en fecha de nacimiento
+// Función para determinar el signo solar usando condicionales directos
 function getSolarSign(month, day) {
-    const date = new Date(2000, month - 1, day); // Usar año 2000 como referencia
-    
-    if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
-    if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus';
-    if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'gemini';
-    if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return 'cancer';
-    if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'leo';
-    if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'virgo';
-    if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'libra';
-    if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'scorpio';
-    if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
-    if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
-    if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
-    if ((month === 2 && day >= 19) || (month === 3 && day <= 20)) return 'pisces';
-    
-    return 'aries'; // Default
+    // Si naciste en marzo y es después del 20, eres Aries
+    if (month === 3 && day >= 21) {
+        return 'aries';
+    }
+    // Si naciste en abril y es antes del 20, eres Aries
+    else if (month === 4 && day <= 19) {
+        return 'aries';
+    }
+    // Si naciste en abril y es después del 19, eres Tauro
+    else if (month === 4 && day >= 20) {
+        return 'taurus';
+    }
+    // Si naciste en mayo y es antes del 21, eres Tauro
+    else if (month === 5 && day <= 20) {
+        return 'taurus';
+    }
+    // Si naciste en mayo y es después del 20, eres Géminis
+    else if (month === 5 && day >= 21) {
+        return 'gemini';
+    }
+    // Si naciste en junio y es antes del 21, eres Géminis
+    else if (month === 6 && day <= 20) {
+        return 'gemini';
+    }
+    // Si naciste en junio y es después del 20, eres Cáncer
+    else if (month === 6 && day >= 21) {
+        return 'cancer';
+    }
+    // Si naciste en julio y es antes del 23, eres Cáncer
+    else if (month === 7 && day <= 22) {
+        return 'cancer';
+    }
+    // Si naciste en julio y es después del 22, eres Leo
+    else if (month === 7 && day >= 23) {
+        return 'leo';
+    }
+    // Si naciste en agosto y es antes del 23, eres Leo
+    else if (month === 8 && day <= 22) {
+        return 'leo';
+    }
+    // Si naciste en agosto y es después del 22, eres Virgo
+    else if (month === 8 && day >= 23) {
+        return 'virgo';
+    }
+    // Si naciste en septiembre y es antes del 23, eres Virgo
+    else if (month === 9 && day <= 22) {
+        return 'virgo';
+    }
+    // Si naciste en septiembre y es después del 22, eres Libra
+    else if (month === 9 && day >= 23) {
+        return 'libra';
+    }
+    // Si naciste en octubre y es antes del 23, eres Libra
+    else if (month === 10 && day <= 22) {
+        return 'libra';
+    }
+    // Si naciste en octubre y es después del 22, eres Escorpio
+    else if (month === 10 && day >= 23) {
+        return 'scorpio';
+    }
+    // Si naciste en noviembre y es antes del 22, eres Escorpio
+    else if (month === 11 && day <= 21) {
+        return 'scorpio';
+    }
+    // Si naciste en noviembre y es después del 21, eres Sagitario
+    else if (month === 11 && day >= 22) {
+        return 'sagittarius';
+    }
+    // Si naciste en diciembre y es antes del 22, eres Sagitario
+    else if (month === 12 && day <= 21) {
+        return 'sagittarius';
+    }
+    // Si naciste en diciembre y es después del 21, eres Capricornio
+    else if (month === 12 && day >= 22) {
+        return 'capricorn';
+    }
+    // Si naciste en enero y es antes del 20, eres Capricornio
+    else if (month === 1 && day <= 19) {
+        return 'capricorn';
+    }
+    // Si naciste en enero y es después del 19, eres Acuario
+    else if (month === 1 && day >= 20) {
+        return 'aquarius';
+    }
+    // Si naciste en febrero y es antes del 19, eres Acuario
+    else if (month === 2 && day <= 18) {
+        return 'aquarius';
+    }
+    // Si naciste en febrero y es después del 18, eres Piscis
+    else if (month === 2 && day >= 19) {
+        return 'pisces';
+    }
+    // Si naciste en marzo y es antes del 21, eres Piscis
+    else if (month === 3 && day <= 20) {
+        return 'pisces';
+    }
+    // Por defecto, eres Aries
+    else {
+        return 'aries';
+    }
 }
 
-// Función mejorada para calcular signo lunar usando efemérides más precisas
+// Función mejorada para calcular signo lunar usando loops
 function getLunarSign(birthDate, birthTime) {
     const date = new Date(birthDate + 'T' + birthTime);
     const month = date.getMonth() + 1;
@@ -75,13 +159,13 @@ function getLunarSign(birthDate, birthTime) {
     const monthPositions = lunarPositions[month];
     if (!monthPositions) return 'aries';
     
-    // Encontrar el día más cercano
+    // Encontrar el día más cercano usando loop
     const days = Object.keys(monthPositions).map(Number).sort((a, b) => a - b);
     let closestDay = days[0];
     
-    for (const dayKey of days) {
-        if (day >= dayKey) {
-            closestDay = dayKey;
+    for (let i = 0; i < days.length; i++) {
+        if (day >= days[i]) {
+            closestDay = days[i];
         } else {
             break;
         }
@@ -98,7 +182,7 @@ function getLunarSign(birthDate, birthTime) {
     return signKeys[adjustedIndex];
 }
 
-// Función mejorada para calcular signo ascendente usando tiempo sidéreo
+// Función mejorada para calcular signo ascendente usando loops
 function getAscendantSign(birthDate, birthTime, latitude = 3.4516) { // Cali, Colombia
     const date = new Date(birthDate + 'T' + birthTime);
     const month = date.getMonth() + 1;
@@ -111,16 +195,33 @@ function getAscendantSign(birthDate, birthTime, latitude = 3.4516) { // Cali, Co
     const signKeys = Object.keys(zodiacSigns);
     const solarIndex = signKeys.indexOf(solarSign);
     
-    // Tabla de ascensión recta por signo (en horas)
-    const rightAscension = {
-        'aries': 0, 'taurus': 2, 'gemini': 4, 'cancer': 6,
-        'leo': 8, 'virgo': 10, 'libra': 12, 'scorpio': 14,
-        'sagittarius': 16, 'capricorn': 18, 'aquarius': 20, 'pisces': 22
-    };
+    // Tabla de ascensión recta por signo (en horas) - usando array para loops
+    const rightAscensionData = [
+        { sign: 'aries', ra: 0 },
+        { sign: 'taurus', ra: 2 },
+        { sign: 'gemini', ra: 4 },
+        { sign: 'cancer', ra: 6 },
+        { sign: 'leo', ra: 8 },
+        { sign: 'virgo', ra: 10 },
+        { sign: 'libra', ra: 12 },
+        { sign: 'scorpio', ra: 14 },
+        { sign: 'sagittarius', ra: 16 },
+        { sign: 'capricorn', ra: 18 },
+        { sign: 'aquarius', ra: 20 },
+        { sign: 'pisces', ra: 22 }
+    ];
+    
+    // Encontrar la ascensión recta del signo solar usando loop
+    let solarRA = 0;
+    for (let i = 0; i < rightAscensionData.length; i++) {
+        if (rightAscensionData[i].sign === solarSign) {
+            solarRA = rightAscensionData[i].ra;
+            break;
+        }
+    }
     
     // Calcular tiempo sidéreo local
     const localTime = hour + minute / 60;
-    const solarRA = rightAscension[solarSign];
     
     // Para agosto 27, 2000, el tiempo sidéreo base es aproximadamente 10 horas
     const baseST = 10; // Tiempo sidéreo base para agosto
@@ -137,7 +238,7 @@ function getAscendantSign(birthDate, birthTime, latitude = 3.4516) { // Cali, Co
     return signKeys[ascendantIndex];
 }
 
-// Función para generar horóscopo del día
+// Función para generar horóscopo del día usando loops
 function generateDailyHoroscope(sign) {
     const horoscopes = {
         aries: [
@@ -206,18 +307,33 @@ function generateDailyHoroscope(sign) {
     return signHoroscopes[Math.floor(Math.random() * signHoroscopes.length)];
 }
 
-// Función para calcular compatibilidad entre dos personas
+// Función para calcular compatibilidad entre dos personas usando loops
 function calculateCompatibility(sign1, sign2) {
     const sign1Data = zodiacSigns[sign1];
     const sign2Data = zodiacSigns[sign2];
     
     if (!sign1Data || !sign2Data) return { score: 0, description: "Información insuficiente" };
     
-    // Verificar compatibilidad directa
-    const isCompatible = sign1Data.compatibility.includes(sign2Data.name) || 
-                        sign2Data.compatibility.includes(sign1Data.name);
+    // Verificar compatibilidad directa usando loop
+    let isCompatible = false;
+    for (let i = 0; i < sign1Data.compatibility.length; i++) {
+        if (sign1Data.compatibility[i] === sign2Data.name) {
+            isCompatible = true;
+            break;
+        }
+    }
     
-    // Verificar elementos compatibles
+    // Si no es compatible directo, verificar al revés
+    if (!isCompatible) {
+        for (let i = 0; i < sign2Data.compatibility.length; i++) {
+            if (sign2Data.compatibility[i] === sign1Data.name) {
+                isCompatible = true;
+                break;
+            }
+        }
+    }
+    
+    // Verificar elementos compatibles usando loop
     const elementCompatibility = {
         "Fuego": ["Fuego", "Aire"],
         "Tierra": ["Tierra", "Agua"],
@@ -225,7 +341,16 @@ function calculateCompatibility(sign1, sign2) {
         "Agua": ["Agua", "Tierra"]
     };
     
-    const elementsCompatible = elementCompatibility[sign1Data.element]?.includes(sign2Data.element);
+    let elementsCompatible = false;
+    const compatibleElements = elementCompatibility[sign1Data.element];
+    if (compatibleElements) {
+        for (let i = 0; i < compatibleElements.length; i++) {
+            if (compatibleElements[i] === sign2Data.element) {
+                elementsCompatible = true;
+                break;
+            }
+        }
+    }
     
     let score = 50; // Base neutral
     let description = "";

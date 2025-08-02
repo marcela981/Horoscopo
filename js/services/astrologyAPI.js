@@ -11,23 +11,34 @@ class AstrologyAPI {
         };
     }
 
-    // Mapeo de signos en español a inglés para la API
+    // Mapeo de signos en español a inglés para la API usando loops
     getZodiacSignMapping(signName) {
-        const signMapping = {
-            'aries': 'aries',
-            'taurus': 'taurus', 
-            'gemini': 'gemini',
-            'cancer': 'cancer',
-            'leo': 'leo',
-            'virgo': 'virgo',
-            'libra': 'libra',
-            'scorpio': 'scorpio',
-            'sagittarius': 'sagittarius',
-            'capricorn': 'capricorn',
-            'aquarius': 'aquarius',
-            'pisces': 'pisces'
-        };
-        return signMapping[signName.toLowerCase()] || 'leo';
+        // Array de mapeo de signos para usar con loops
+        const signMapping = [
+            { spanish: 'aries', english: 'aries' },
+            { spanish: 'taurus', english: 'taurus' },
+            { spanish: 'gemini', english: 'gemini' },
+            { spanish: 'cancer', english: 'cancer' },
+            { spanish: 'leo', english: 'leo' },
+            { spanish: 'virgo', english: 'virgo' },
+            { spanish: 'libra', english: 'libra' },
+            { spanish: 'scorpio', english: 'scorpio' },
+            { spanish: 'sagittarius', english: 'sagittarius' },
+            { spanish: 'capricorn', english: 'capricorn' },
+            { spanish: 'aquarius', english: 'aquarius' },
+            { spanish: 'pisces', english: 'pisces' }
+        ];
+        
+        const normalizedSignName = signName.toLowerCase();
+        
+        // Buscar el mapeo usando loop
+        for (let i = 0; i < signMapping.length; i++) {
+            if (signMapping[i].spanish === normalizedSignName) {
+                return signMapping[i].english;
+            }
+        }
+        
+        return 'leo'; // Default
     }
 
     // Obtener horóscopo detallado por signo

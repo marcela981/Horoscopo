@@ -362,32 +362,58 @@ class BirthForm {
         }
         
         const sunSign = birthChartData.planets.Sun.sign;
-        const horoscopes = {
-            'Aries': "Hoy es un día perfecto para tomar la iniciativa. Tu energía natural te llevará a grandes logros. Confía en tu instinto y no dudes en expresar tus ideas.",
-            'Taurus': "La estabilidad será tu mejor aliada hoy. Toma decisiones prácticas y confía en tu perseverancia. Los resultados llegarán con paciencia.",
-            'Gemini': "Tu curiosidad intelectual te llevará a descubrir cosas fascinantes hoy. Comunica tus ideas con claridad y conecta con personas interesantes.",
-            'Cancer': "Tus emociones estarán muy presentes hoy. Escucha tu intuición y protege a quienes amas. El hogar será tu refugio perfecto.",
-            'Leo': "El sol brilla especialmente para ti hoy. Tu carisma natural atraerá atención positiva. Es momento de brillar y mostrar tu creatividad.",
-            'Virgo': "Tu atención al detalle será invaluable hoy. Analiza las situaciones con precisión y encuentra soluciones prácticas a los problemas.",
-            'Libra': "El equilibrio será tu tema principal hoy. Busca la armonía en todas tus relaciones y decisiones. Tu diplomacia será muy valorada.",
-            'Scorpio': "Tu intensidad emocional será tu superpoder hoy. Profundiza en las conexiones importantes y transforma lo que necesita cambio.",
-            'Sagittarius': "La aventura te llama hoy. Explora nuevos territorios, tanto físicos como intelectuales. Tu optimismo te guiará hacia el éxito.",
-            'Capricorn': "Tu ambición y disciplina te llevarán al éxito hoy. Trabaja duro en tus metas y no dudes en tomar responsabilidades importantes.",
-            'Aquarius': "Tu originalidad y pensamiento innovador brillarán hoy. Rompe con las convenciones y propón ideas revolucionarias.",
-            'Pisces': "Tu intuición y espiritualidad estarán muy activas hoy. Conecta con tu mundo interior y confía en tus percepciones psíquicas."
-        };
         
-        return horoscopes[sunSign] || "Las estrellas tienen un mensaje especial para ti hoy. Confía en tu intuición y sigue tu corazón.";
+        // Array de horóscopos para usar con loops
+        const horoscopes = [
+            { sign: 'Aries', text: "Hoy es un día perfecto para tomar la iniciativa. Tu energía natural te llevará a grandes logros. Confía en tu instinto y no dudes en expresar tus ideas." },
+            { sign: 'Taurus', text: "La estabilidad será tu mejor aliada hoy. Toma decisiones prácticas y confía en tu perseverancia. Los resultados llegarán con paciencia." },
+            { sign: 'Gemini', text: "Tu curiosidad intelectual te llevará a descubrir cosas fascinantes hoy. Comunica tus ideas con claridad y conecta con personas interesantes." },
+            { sign: 'Cancer', text: "Tus emociones estarán muy presentes hoy. Escucha tu intuición y protege a quienes amas. El hogar será tu refugio perfecto." },
+            { sign: 'Leo', text: "El sol brilla especialmente para ti hoy. Tu carisma natural atraerá atención positiva. Es momento de brillar y mostrar tu creatividad." },
+            { sign: 'Virgo', text: "Tu atención al detalle será invaluable hoy. Analiza las situaciones con precisión y encuentra soluciones prácticas a los problemas." },
+            { sign: 'Libra', text: "El equilibrio será tu tema principal hoy. Busca la armonía en todas tus relaciones y decisiones. Tu diplomacia será muy valorada." },
+            { sign: 'Scorpio', text: "Tu intensidad emocional será tu superpoder hoy. Profundiza en las conexiones importantes y transforma lo que necesita cambio." },
+            { sign: 'Sagittarius', text: "La aventura te llama hoy. Explora nuevos territorios, tanto físicos como intelectuales. Tu optimismo te guiará hacia el éxito." },
+            { sign: 'Capricorn', text: "Tu ambición y disciplina te llevarán al éxito hoy. Trabaja duro en tus metas y no dudes en tomar responsabilidades importantes." },
+            { sign: 'Aquarius', text: "Tu originalidad y pensamiento innovador brillarán hoy. Rompe con las convenciones y propón ideas revolucionarias." },
+            { sign: 'Pisces', text: "Tu intuición y espiritualidad estarán muy activas hoy. Conecta con tu mundo interior y confía en tus percepciones psíquicas." }
+        ];
+        
+        // Buscar el horóscopo usando loop
+        for (let i = 0; i < horoscopes.length; i++) {
+            if (horoscopes[i].sign === sunSign) {
+                return horoscopes[i].text;
+            }
+        }
+        
+        return "Las estrellas tienen un mensaje especial para ti hoy. Confía en tu intuición y sigue tu corazón.";
     }
 
     getSignElement(sign) {
-        const elements = {
-            'Aries': 'Fuego', 'Leo': 'Fuego', 'Sagittarius': 'Fuego',
-            'Taurus': 'Tierra', 'Virgo': 'Tierra', 'Capricorn': 'Tierra',
-            'Gemini': 'Aire', 'Libra': 'Aire', 'Aquarius': 'Aire',
-            'Cancer': 'Agua', 'Scorpio': 'Agua', 'Pisces': 'Agua'
-        };
-        return elements[sign] || 'Desconocido';
+        // Array de elementos para usar con loops
+        const signElements = [
+            { sign: 'Aries', element: 'Fuego' },
+            { sign: 'Leo', element: 'Fuego' },
+            { sign: 'Sagittarius', element: 'Fuego' },
+            { sign: 'Taurus', element: 'Tierra' },
+            { sign: 'Virgo', element: 'Tierra' },
+            { sign: 'Capricorn', element: 'Tierra' },
+            { sign: 'Gemini', element: 'Aire' },
+            { sign: 'Libra', element: 'Aire' },
+            { sign: 'Aquarius', element: 'Aire' },
+            { sign: 'Cancer', element: 'Agua' },
+            { sign: 'Scorpio', element: 'Agua' },
+            { sign: 'Pisces', element: 'Agua' }
+        ];
+        
+        // Buscar el elemento usando loop
+        for (let i = 0; i < signElements.length; i++) {
+            if (signElements[i].sign === sign) {
+                return signElements[i].element;
+            }
+        }
+        
+        return 'Desconocido';
     }
 }
 
